@@ -8,18 +8,34 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    //link popover button
+    @IBAction func popover(sender: AnyObject) {
+        self.performSegueWithIdentifier("showView", sender: self)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //a segue is a connection between the storyboard and controller
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //check to make sure segie is on popover
+        if segue.identifier == "showView"{
+            
+            var vc = segue.destinationViewController as! UIViewController
+            
+            var controller = vc.popoverPresentationController
+            
+            if controller != nil{
+                controller?.delegate = self
+            }
+            
+        }
     }
-
+    
+    //force UI popup controller
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .None
+    }
 
 }
 
